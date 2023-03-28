@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct point {
+	int x, y;
+	string name;
+	double dist(){
+		return sqrt((double)(x * x + y * y));
+	}
+};
+
+void sort(point* m, int k) {
+	point temp;
+	int i, j;
+	for(i=0;i<k-1;i++)
+		for (j = k - 1; j > i; j--) {
+			if (m[j].dist() < m[j - 1].dist()) {
+				temp = m[j];
+				m[j] = m[j - 1];
+				m[j - 1] = temp;
+			}
+			if ((m[j].dist() == m[j - 1].dist()) && (m[j].name < m[j - 1].name)) {
+				temp = m[j];
+				m[j] = m[j - 1];
+				m[j - 1] = temp;
+			}
+		}
+}
+
+int main() {
+	setlocale(LC_ALL, "ru");
+	int k;
+	cout << "Введите кол-во точек:";
+	cin >> k;
+	point* m = new point[k];
+	cout << "Введите имя, координату x и y" << endl;
+	for (int i = 0; i < k; i++) {
+		cin >> m[i].name >> m[i].x >> m[i].y;
+	}
+	sort(m, k);
+	cout << "Отсортированный массив:" << endl;
+	for (int i = 0; i < k; i++) {
+		cout << m[i].name << " " << m[i].x << " " << m[i].y << endl;
+	}
+}
+// сортируем точки по расстоянию, если расстояние равно, то сортировать по имени
